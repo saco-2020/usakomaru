@@ -1,6 +1,16 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
+    <v-col cols="12">
+      <h2 class="mb-5">在庫</h2>
+      <v-data-table
+        :headers="headers"
+        :items="desserts"
+        :items-per-page="5"
+        class="elevation-1"
+      ></v-data-table>
+    </v-col>
+
+    <!-- <v-col cols="12" sm="8" md="6">
       <div class="text-center">
         <logo />
         <vuetify-logo />
@@ -72,7 +82,7 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-    </v-col>
+    </v-col> -->
   </v-row>
 </template>
 
@@ -84,6 +94,89 @@ export default {
   components: {
     Logo,
     VuetifyLogo
-  }
+  },
+  data () {
+    return {
+      headers: [
+        {
+          text: '薬局名',
+          align: 'start',
+          sortable: false,
+          value: 'name',
+        },
+        { text: '頭痛薬', value: 'head' },
+        { text: '腹痛薬', value: 'stomache' },
+        { text: '解熱剤', value: 'fever' },
+        { text: '風邪薬', value: 'chill' },
+        { text: '軟膏', value: 'diabetic' },
+      ],
+      desserts: [
+        {
+          name: 'A薬局',
+          head: 10,
+          stomache: 2,
+          fever: 24,
+          chill: 34,
+          diabetic: 4,
+        },
+        {
+          name: 'A薬局(予測)',
+          head: 14,
+          stomache: 2,
+          fever: 24,
+          chill: 34,
+          diabetic: 4,
+        },
+        {
+          name: 'B薬局',
+          head: 14,
+          stomache: 2,
+          fever: 24,
+          chill: 34,
+          diabetic: 4,
+        },
+        {
+          name: 'B薬局',
+          head: 14,
+          stomache: 2,
+          fever: 24,
+          chill: 34,
+          diabetic: 4,
+        },
+        {
+          name: 'C薬局',
+          head: 14,
+          stomache: 2,
+          fever: 24,
+          chill: 34,
+          diabetic: 4,
+        },
+        {
+          name: 'C薬局(予測)',
+          head: 14,
+          stomache: 2,
+          fever: 24,
+          chill: 34,
+          diabetic: 4,
+        },
+        {
+          name: 'D薬局',
+          head: 14,
+          stomache: 2,
+          fever: 24,
+          chill: 34,
+          diabetic: 4,
+        },
+        {
+          name: 'D薬局',
+          head: 14,
+          stomache: 2,
+          fever: 24,
+          chill: 34,
+          diabetic: 4,
+        },
+      ],
+    }
+  },
 }
 </script>
