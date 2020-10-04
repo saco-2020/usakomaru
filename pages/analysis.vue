@@ -24,12 +24,27 @@
     </v-row>
     <v-content>
         <v-container>
-            <v-row>
+            <v-row class="correlation">
                 <v-col cols="12">
-                    <h2 class="mt-3">分析</h2>
+                    <h2 class="mt-3">薬注文数と地表面温度の相関分析</h2>
                 </v-col>
                 <v-col cols="12">
-                    <Scatter :chartdata="scatterdata" :options="options" />
+                    <Scatter :chartdata="scatterdata" />
+                </v-col>
+            </v-row>
+        </v-container>
+        <v-container>
+            <v-row>
+                <v-col cols="12" >
+                    <h2>注文数の時間推移</h2>
+                </v-col>
+                <v-col cols="12" md="6">
+                    <h3 class="mt-3">頭痛薬</h3>
+                    <BarChart :chartdata="bardata" />
+                </v-col>
+                <v-col cols="12" md="6">
+                    <h3 class="mt-3">腹痛薬</h3>
+                    <BarChart :chartdata="bardata" />
                 </v-col>
             </v-row>
         </v-container>
@@ -38,8 +53,8 @@
 </template>
 
 <style>
-.v-content {
-  max-width: 80% !important;
+.correlation {
+  max-width: 60% !important;
 }
 </style>
 
@@ -54,76 +69,113 @@ export default {
   },
   data() {
     return {
-      scatterdata: {
-        datasets: [
-            {
-                label: '頭痛薬',
-                data: [{x:24, y:20},{x:40, y:30},{x:13, y:12},{x:20, y:18},{x:30, y:19}],
-                backgroundColor: 'mediumvioletred',
-                pointRadius: 5,
-            },
-            {
-                label: '腹痛薬',
-                data: [{x:24, y:29},{x:40, y:7},{x:13, y:5},{x:20, y:14},{x:30, y:30}],
-                backgroundColor: 'teal',
-                pointRadius: 5,
-            },
-            {
-                label: '解熱薬',
-                data: [{x:24, y:18},{x:40, y:38},{x:13, y:9},{x:20, y:15},{x:30, y:27}],
-                backgroundColor: 'gold',
-                pointRadius: 5,
-            },
-            {
-                label: '風邪薬',
-                data: [{x:24, y:16},{x:40, y:3},{x:13, y:37},{x:20, y:23},{x:30, y:15}],
-                backgroundColor: 'darkorange',
-                pointRadius: 5,
-            },
-            {
-                label: '軟膏',
-                data: [{x:24, y:14},{x:40, y:16},{x:13, y:20},{x:20, y:10},{x:30, y:11}],
-                backgroundColor: 'royalblue',
-                pointRadius: 5,
-            },
-        ],
-      },
-      options: {
-        title: {
-            display: true,
-            text: '薬注文数と地表温度の相関',
-        },
-        scales: {
-            xAxes: [{
-                scaleLabel: {
-                display: true,
-                labelString: '地表温度'
+        scatterdata: {
+            datasets: [
+                {
+                    label: '頭痛薬',
+                    data: [{x:24, y:20},{x:38, y:30},{x:13, y:12},{x:20, y:18},{x:30, y:19}],
+                    backgroundColor: 'mediumvioletred',
+                    pointRadius: 5,
                 },
-                ticks: {
-                suggestedMin: 0,
-                suggestedMax: 50,
-                stepSize: 5,
-                callback: function(value, index, values){
-                    return  value
-                }
-                }
-            }],
-            yAxes: [{
-                scaleLabel: {
+                {
+                    label: '腹痛薬',
+                    data: [{x:24, y:29},{x:38, y:7},{x:13, y:5},{x:20, y:14},{x:30, y:30}],
+                    backgroundColor: 'teal',
+                    pointRadius: 5,
+                },
+                {
+                    label: '解熱薬',
+                    data: [{x:24, y:18},{x:38, y:38},{x:13, y:9},{x:20, y:15},{x:30, y:27}],
+                    backgroundColor: 'gold',
+                    pointRadius: 5,
+                },
+                {
+                    label: '風邪薬',
+                    data: [{x:24, y:16},{x:38, y:3},{x:13, y:37},{x:20, y:23},{x:30, y:15}],
+                    backgroundColor: 'darkorange',
+                    pointRadius: 5,
+                },
+                {
+                    label: '軟膏',
+                    data: [{x:24, y:14},{x:38, y:16},{x:13, y:20},{x:20, y:10},{x:30, y:11}],
+                    backgroundColor: 'royalblue',
+                    pointRadius: 5,
+                },
+                ],
+            },
+            options: {
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
                     display: true,
-                    labelString: '薬注文数'
-                },
-                ticks: {
-                    suggestedMax: 40,
+                    labelString: '地表面温度'
+                    },
+                    ticks: {
                     suggestedMin: 0,
-                    stepSize: 10,
+                    suggestedMax: 50,
+                    stepSize: 5,
                     callback: function(value, index, values){
                         return  value
                     }
-                }
-            }]
-        }
-      },
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: '薬注文数'
+                    },
+                    ticks: {
+                        suggestedMax: 40,
+                        suggestedMin: 0,
+                        stepSize: 10,
+                        callback: function(value, index, values){
+                            return  value
+                        }
+                    }
+                }]
+            },
+        },
+        bardata: {
+            labels: ['10/1', '10/2', '10/3', '10/4', '10/5', '10/6', '10/7'],
+            datasets: [
+                {
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2,
+                    label: ['A薬局'],
+                    data: [14, 20, 14, 16, 23, 12, 15],
+                    backgroundColor: 'mediumvioletred',
+                },
+                {
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2,
+                    label: ['B薬局'],
+                    data: [3, 6, 4, 2, 8, 5, 7],
+                    backgroundColor: 'teal',
+                },
+                {
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2,
+                    label: ['C薬局'],
+                    data: [2, 4, 3, 6, 7, 9, 11],
+                    backgroundColor: 'gold',
+                },
+                {
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2,
+                    label: ['D薬局'],
+                    data: [6, 8, 10, 5, 14, 20, 11],
+                    backgroundColor: 'royalblue',
+                },
+            ],
+        },
     }
   },
 }
