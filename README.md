@@ -5,6 +5,7 @@
 - サービス概要
 - サービスアーキテクチャ
 - ビジネスモデル
+- 今回利用したサービスなど
 - Build Setup
 
 ## サービス概要
@@ -26,6 +27,11 @@
 ## ビジネスモデル
 
 ![MicrosoftTeams-image](https://user-images.githubusercontent.com/10124895/95007188-c1df1780-0647-11eb-8547-07afab380f21.png)
+
+## 今回利用したサービスなど
+
+- [mapbox 地図情報](https://www.mapbox.com/)
+- [OpenWeather 天候などの衛星データ](https://home.openweathermap.org/)
 
 ## Build Setup
 
