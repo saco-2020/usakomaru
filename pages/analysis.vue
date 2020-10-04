@@ -1,118 +1,129 @@
 <template>
-  <v-row>
-    <v-col cols="12">
-      <h2>可視化</h2>
-    </v-col>
-    <br>
-    <v-col cols="12" md="6">
-      <h3>地表温度</h3>
-      <div>
-        <v-img
-          src="/tanzania.jpeg"
-        ></v-img>
-      </div>
-    </v-col>
-    <v-col cols="12" md="6">
-      <h3>飢餓指数</h3>
-      <div>
-        <v-img
-          src="/tanzania.jpeg"
-        ></v-img>
-      </div>
-    </v-col>
-  </v-row>
+<div>
+    <v-row>
+        <v-col cols="12">
+        <h2>可視化</h2>
+        </v-col>
+        <br>
+        <v-col cols="12" md="6">
+        <h3>地表温度</h3>
+        <div>
+            <v-img
+            src="/tanzania.jpeg"
+            ></v-img>
+        </div>
+        </v-col>
+        <v-col cols="12" md="6">
+        <h3>飢餓指数</h3>
+        <div>
+            <v-img
+            src="/tanzania.jpeg"
+            ></v-img>
+        </div>
+        </v-col>
+    </v-row>
+    <v-content>
+        <v-container>
+            <v-row>
+                <v-col cols="12">
+                    <h2 class="mt-3">分析</h2>
+                </v-col>
+                <v-col cols="12">
+                    <Scatter :chartdata="scatterdata" :options="options" />
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-content>
+</div>
 </template>
 
+<style>
+.v-content {
+  max-width: 80% !important;
+}
+</style>
+
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import BarChart from '@/components/BarChart.vue'
+import Scatter from '@/components/Scatter.vue'
 
 export default {
   components: {
-    Logo,
-    VuetifyLogo
+    BarChart,
+    Scatter,
   },
-  data () {
+  data() {
     return {
-      headers: [
-        {
-          text: '薬局名',
-          align: 'start',
-          sortable: false,
-          value: 'name',
+      scatterdata: {
+        datasets: [
+            {
+                label: '頭痛薬',
+                data: [{x:24, y:20},{x:40, y:30},{x:13, y:12},{x:20, y:18},{x:30, y:19}],
+                backgroundColor: 'mediumvioletred',
+                pointRadius: 5,
+            },
+            {
+                label: '腹痛薬',
+                data: [{x:24, y:29},{x:40, y:7},{x:13, y:5},{x:20, y:14},{x:30, y:30}],
+                backgroundColor: 'teal',
+                pointRadius: 5,
+            },
+            {
+                label: '解熱薬',
+                data: [{x:24, y:18},{x:40, y:38},{x:13, y:9},{x:20, y:15},{x:30, y:27}],
+                backgroundColor: 'gold',
+                pointRadius: 5,
+            },
+            {
+                label: '風邪薬',
+                data: [{x:24, y:16},{x:40, y:3},{x:13, y:37},{x:20, y:23},{x:30, y:15}],
+                backgroundColor: 'darkorange',
+                pointRadius: 5,
+            },
+            {
+                label: '軟膏',
+                data: [{x:24, y:14},{x:40, y:16},{x:13, y:20},{x:20, y:10},{x:30, y:11}],
+                backgroundColor: 'royalblue',
+                pointRadius: 5,
+            },
+        ],
+      },
+      options: {
+        title: {
+            display: true,
+            text: '薬注文数と地表温度の相関',
         },
-        { text: '頭痛薬', value: 'head' },
-        { text: '腹痛薬', value: 'stomache' },
-        { text: '解熱剤', value: 'fever' },
-        { text: '風邪薬', value: 'chill' },
-        { text: '軟膏', value: 'diabetic' },
-      ],
-      desserts: [
-        {
-          name: 'A薬局',
-          head: 1,
-          stomache: 2,
-          fever: 3,
-          chill: 8,
-          diabetic: 0,
-        },
-        {
-          name: 'A薬局(予測)',
-          head: 14,
-          stomache: 5,
-          fever: 10,
-          chill: 13,
-          diabetic: 4,
-        },
-        {
-          name: 'B薬局',
-          head: 4,
-          stomache: 3,
-          fever: 4,
-          chill: 0,
-          diabetic: 2,
-        },
-        {
-          name: 'B薬局(予測)',
-          head: 5,
-          stomache: 3,
-          fever: 8,
-          chill: 5,
-          diabetic: 16,
-        },
-        {
-          name: 'C薬局',
-          head: 10,
-          stomache: 3,
-          fever: 6,
-          chill: 8,
-          diabetic: 18,
-        },
-        {
-          name: 'C薬局(予測)',
-          head: 14,
-          stomache: 2,
-          fever: 24,
-          chill: 34,
-          diabetic: 4,
-        },
-        {
-          name: 'D薬局',
-          head: 14,
-          stomache: 2,
-          fever: 24,
-          chill: 34,
-          diabetic: 4,
-        },
-        {
-          name: 'D薬局(予測)',
-          head: 14,
-          stomache: 3,
-          fever: 24,
-          chill: 36,
-          diabetic: 9,
-        },
-      ],
+        scales: {
+            xAxes: [{
+                scaleLabel: {
+                display: true,
+                labelString: '地表温度'
+                },
+                ticks: {
+                suggestedMin: 0,
+                suggestedMax: 50,
+                stepSize: 5,
+                callback: function(value, index, values){
+                    return  value
+                }
+                }
+            }],
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: '薬注文数'
+                },
+                ticks: {
+                    suggestedMax: 40,
+                    suggestedMin: 0,
+                    stepSize: 10,
+                    callback: function(value, index, values){
+                        return  value
+                    }
+                }
+            }]
+        }
+      },
     }
   },
 }
