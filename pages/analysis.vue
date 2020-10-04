@@ -1,55 +1,45 @@
 <template>
-<div>
-    <v-row>
-        <v-col cols="12">
-        <h2>可視化</h2>
-        </v-col>
-        <br>
-        <v-col cols="12" md="6">
-        <h3>地表温度</h3>
-        <div>
-            <v-img
-            src="/tanzania.jpeg"
-            ></v-img>
-        </div>
-        </v-col>
-        <v-col cols="12" md="6">
-        <h3>飢餓指数</h3>
-        <div>
-            <v-img
-            src="/tanzania.jpeg"
-            ></v-img>
-        </div>
-        </v-col>
-    </v-row>
-    <v-content>
-        <v-container>
-            <v-row class="correlation">
-                <v-col cols="12">
-                    <h2 class="mt-3">薬注文数と地表面温度の相関分析</h2>
-                </v-col>
-                <v-col cols="12">
-                    <Scatter :chartdata="scatterdata" />
-                </v-col>
-            </v-row>
-        </v-container>
-        <v-container>
-            <v-row>
-                <v-col cols="12" >
-                    <h2>注文数の時間推移</h2>
-                </v-col>
-                <v-col cols="12" md="6">
-                    <h3 class="mt-3">頭痛薬</h3>
-                    <BarChart :chartdata="bardata" />
-                </v-col>
-                <v-col cols="12" md="6">
-                    <h3 class="mt-3">腹痛薬</h3>
-                    <BarChart :chartdata="bardata" />
-                </v-col>
-            </v-row>
-        </v-container>
-    </v-content>
-</div>
+    <div>
+        <v-row>
+            <v-col cols="12">
+            <h2>可視化</h2>
+            </v-col>
+            <br>
+            <v-col cols="12" md="12">
+                <h3>天候情報</h3>
+                <div>
+                    <div id="map"></div>
+                </div>
+            </v-col>
+        </v-row>
+        <v-content>
+            <v-container>
+                <v-row class="correlation">
+                    <v-col cols="12">
+                        <h2 class="mt-3">薬注文数と地表面温度の相関分析</h2>
+                    </v-col>
+                    <v-col cols="12">
+                        <Scatter :chartdata="scatterdata" />
+                    </v-col>
+                </v-row>
+            </v-container>
+            <v-container>
+                <v-row>
+                    <v-col cols="12" >
+                        <h2>注文数の時間推移</h2>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <h3 class="mt-3">頭痛薬</h3>
+                        <BarChart :chartdata="bardata" />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <h3 class="mt-3">腹痛薬</h3>
+                        <BarChart :chartdata="bardata" />
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-content>
+    </div>
 </template>
 
 <style>
@@ -62,6 +52,9 @@
 import BarChart from '@/components/BarChart.vue'
 import Scatter from '@/components/Scatter.vue'
 
+import mapboxgl from 'mapbox-gl'
+const MapboxLanguage = require('@mapbox/mapbox-gl-language')
+
 export default {
   components: {
     BarChart,
@@ -69,6 +62,7 @@ export default {
   },
   data() {
     return {
+        map: {},
         scatterdata: {
             datasets: [
                 {
@@ -101,9 +95,9 @@ export default {
                     backgroundColor: 'royalblue',
                     pointRadius: 5,
                 },
-                ],
-            },
-            options: {
+            ],
+        },
+        options: {
             scales: {
                 xAxes: [{
                     scaleLabel: {
@@ -178,5 +172,74 @@ export default {
         },
     }
   },
+  async mounted () {
+      const weatherData = await this.$axios
+      .get('http://api.openweathermap.org/data/2.5/find?lat=-6.842073&lon=39.016626&cnt=10&appid=dabd7fcb81c4366c68e36272dbeb1b47')
+      .then(
+        (response) => {
+          return response.data
+        },
+        // eslint-disable-next-line handle-callback-err
+        (error) => {
+          return error.response
+        }
+      )
+
+      mapboxgl.accessToken = 'pk.eyJ1IjoiaGlkZXlhc3UiLCJhIjoiY2tmdHZvOG5nMGt0bTJwdDgyZmVzM29sMCJ9.NmNSZ6tkUCdZmLdSFpQ4Ww'
+      this.map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v10',
+        zoom: 12,
+        center: [-122.447303, 37.753574]
+      })
+
+      this.map.addControl(new MapboxLanguage({
+        defaultLanguage: 'ja'
+      }))
+
+      this.map.on('load', () => {
+        this.map.addLayer({
+          'id': 'population',
+          'type': 'circle',
+          'source': {
+            type: 'vector',
+            url: 'mapbox://examples.8fgz4egr'
+          },
+          'source-layer': 'sf2010',
+          'paint': {
+            // make circles larger as the user zooms from z12 to z22
+            'circle-radius': {
+              'base': 1.75,
+              'stops': [
+                [12, 2],
+                [22, 180]
+              ]
+            },
+            // color circles by ethnicity, using a match expression
+            // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
+            'circle-color': [
+              'match',
+              ['get', 'ethnicity'],
+              'White',
+              '#fbb03b',
+              'Black',
+              '#223b53',
+              'Hispanic',
+              '#e55e5e',
+              'Asian',
+              '#3bb2d0',
+              /* other */ '#ccc'
+            ]
+          }
+        });
+      });
+    }
 }
 </script>
+
+<style>
+#map {
+  width: 100%;
+  height: 100vh;
+}
+</style>
