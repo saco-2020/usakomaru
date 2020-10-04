@@ -17,6 +17,7 @@
                 <v-row class="correlation">
                     <v-col cols="12">
                         <h2 class="mt-3">薬注文数と地表面温度の相関分析</h2>
+                        <p>縦軸：注文数、 横軸：地表面温度[℃]</p>
                     </v-col>
                     <v-col cols="12">
                         <Scatter :chartdata="scatterdata" />
@@ -30,7 +31,7 @@
                     </v-col>
                     <v-col cols="12" md="6">
                         <h3 class="mt-3">頭痛薬</h3>
-                        <BarChart :chartdata="bardata" />
+                        <BarChart :chartdata="bardata" :options="options"/>
                     </v-col>
                     <v-col cols="12" md="6">
                         <h3 class="mt-3">腹痛薬</h3>
@@ -109,7 +110,7 @@ export default {
                     suggestedMax: 50,
                     stepSize: 5,
                     callback: function(value, index, values){
-                        return  value
+                        return value
                     }
                     }
                 }],
