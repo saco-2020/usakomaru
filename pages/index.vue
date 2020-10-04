@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12">
       <v-img
-        src="/overview-map.jpg"
+        src="https://anywhere-health.s3-ap-northeast-1.amazonaws.com/overview-map.jpg"
       ></v-img>
     </v-col>
     <v-col cols="12">
