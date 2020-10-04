@@ -1,18 +1,24 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <v-img
-        src="/overview-map.jpg"
-      ></v-img>
+      <h2>可視化</h2>
     </v-col>
-    <v-col cols="12">
-      <h2 class="mb-5">在庫</h2>
-      <v-data-table
-        :headers="headers"
-        :items="desserts"
-        :items-per-page="5"
-        class="elevation-1"
-      ></v-data-table>
+    <br>
+    <v-col cols="12" md="6">
+      <h3>地表温度</h3>
+      <div>
+        <v-img
+          src="/tanzania.jpeg"
+        ></v-img>
+      </div>
+    </v-col>
+    <v-col cols="12" md="6">
+      <h3>飢餓指数</h3>
+      <div>
+        <v-img
+          src="/tanzania.jpeg"
+        ></v-img>
+      </div>
     </v-col>
   </v-row>
 </template>
