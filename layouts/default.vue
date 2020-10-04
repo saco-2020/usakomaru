@@ -35,7 +35,7 @@
             alt="Anywhere Health"
             contain
             class="ml-7"
-            src="/logo.png"
+            src="https://anywhere-health.s3-ap-northeast-1.amazonaws.com/logo.png"
             height="45"
             width="70"
           />
