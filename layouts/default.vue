@@ -80,13 +80,13 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: '在庫管理',
           to: '/'
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          title: '分析',
+          to: '/analysis'
         }
       ],
       miniVariant: false,
