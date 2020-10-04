@@ -184,7 +184,7 @@ export default {
           return error.response
         }
       )
-      console.log(weatherData)
+
       mapboxgl.accessToken = 'pk.eyJ1IjoiaGlkZXlhc3UiLCJhIjoiY2tmdHZvOG5nMGt0bTJwdDgyZmVzM29sMCJ9.NmNSZ6tkUCdZmLdSFpQ4Ww'
       this.map = new mapboxgl.Map({
         container: 'map',
