@@ -12,10 +12,13 @@
     "generate:gh-pages": "cross-env DEPLOY_ENV=GH_PAGES nuxt generate"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-language": "^0.10.1",
     "@nuxtjs/axios": "^5.12.2",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
+    "mapbox-gl": "^1.12.0",
     "nuxt": "^2.14.5",
+    "vue-mapbox": "^0.4.1",
     "vue-chartjs": "^3.5.1"
   },
   "devDependencies": {
