@@ -30,14 +30,20 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
+        <h1>
+          <v-img
+            alt="Anywhere Health"
+            contain
+            class="ml-7"
+            src="/logo.png"
+            height="45"
+            width="70"
+          />
+        </h1>
+        <v-toolbar-title
+          v-text="title"
+         />
       <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
     </v-app-bar>
     <v-main>
       <v-container>
